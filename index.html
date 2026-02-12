@@ -15,27 +15,34 @@ body {
     color: white;
 }
 
-h1 { margin-top: 40px; font-size: 38px; text-shadow: 2px 2px 8px rgba(0,0,0,0.3); }
+h1 { margin-top: 40px; font-size: 32px; text-shadow: 2px 2px 8px rgba(0,0,0,0.3); padding: 0 10px; }
 p { font-size: 18px; }
 
 .container {
     position: relative;
     margin-top: 40px;
-    height: 260px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .teddy {
-    width: 140px;
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid white;
     position: absolute;
-    transition: all 1s ease;
+    transition: all 1s ease-in-out;
 }
 
-#left { left: 12%; }
-#right { right: 12%; }
-.hugMove { left: 40% !important; }
+#left { left: 15%; }
+#right { right: 15%; }
+.hugMove { left: 50% !important; transform: translateX(-50%); }
 
 button {
-    margin-top: 20px;
+    margin-top: 30px;
     padding: 14px 28px;
     font-size: 18px;
     border-radius: 30px;
@@ -43,17 +50,21 @@ button {
     background-color: #ff4e88;
     color: white;
     cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    z-index: 10;
+    position: relative;
 }
 
-.message { margin-top: 20px; font-size: 20px; display: none; }
+.message { margin-top: 20px; font-size: 20px; display: none; font-weight: bold; }
 
 /* 🌹 Rose Petals */
 .petal {
     position: fixed;
     top: -50px;
-    font-size: 20px;
+    font-size: 18px;
     animation: fall linear forwards;
     z-index: 5;
+    white-space: nowrap;
 }
 @keyframes fall {
     to { transform: translateY(110vh) rotate(360deg); opacity: 0.8; }
@@ -70,17 +81,18 @@ button {
     justify-content: center;
     align-items: center;
     font-family: cursive;
-    z-index: 10;
+    z-index: 100;
 }
 
 .loader {
     width: 200px;
-    height: 20px;
-    border: 2px solid black;
+    height: 10px;
+    border: 1px solid #ccc;
     margin: 15px 0;
+    border-radius: 10px;
     overflow: hidden;
 }
-.progress { height: 100%; width: 0%; background: black; }
+.progress { height: 100%; width: 0%; background: #ff4e88; transition: width 0.03s linear; }
 
 /* 📸 Slideshow */
 #slideshow {
@@ -91,18 +103,19 @@ button {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    z-index: 20;
+    z-index: 200;
 }
 
 #slideshow img {
-    max-width: 85%;
-    max-height: 75%;
-    border-radius: 20px;
-    box-shadow: 0 0 30px rgba(255,255,255,0.5);
-    transition: opacity 0.5s ease;
+    max-width: 90%;
+    max-height: 70%;
+    border: 5px solid white;
+    border-radius: 15px;
+    box-shadow: 0 0 30px rgba(255,255,255,0.3);
+    transition: opacity 0.8s ease-in-out;
 }
 
-#slideshow h2 { color: white; margin-top: 15px; }
+#slideshow h2 { color: white; margin-top: 20px; font-family: cursive; }
 </style>
 </head>
 
@@ -112,8 +125,8 @@ button {
 <p>Tap below to receive the warmest hug ever!</p>
 
 <div class="container">
-    <img src="https://i.imgur.com/6M513bD.png" class="teddy" id="left">
-    <img src="https://i.imgur.com/6M513bD.png" class="teddy" id="right">
+    <img src="IMG_0101.jpeg" class="teddy" id="left" alt="hug">
+    <img src="IMG_0101.jpeg" class="teddy" id="right" alt="hug">
 </div>
 
 <button onclick="startHug()">Click for a Hug 🤍</button>
@@ -123,24 +136,21 @@ button {
     Preparing Your Surprise...
 </div>
 
-<!-- 💌 Loading Screen -->
 <div id="endingScreen">
-    <h2>Sending virtual hug 🤗</h2>
-    <p>loading...</p>
+    <h2>Sending virtual hug... 🤗</h2>
     <div class="loader"><div class="progress" id="progressBar"></div></div>
-    <h2 id="sentText" style="display:none;">Hug sent! 💌</h2>
+    <h2 id="sentText" style="display:none;">Hug sent to my King! 💌</h2>
 </div>
 
-<!-- 📸 Slideshow -->
 <div id="slideshow">
-    <img id="slideImg" src="">
+    <img id="slideImg" src="" style="opacity: 1;">
     <h2>Our Beautiful Memories 💖</h2>
 </div>
 
 <script>
-const petalTexts = ["🌹 Rupali ❤️ King", "🌹 Forever Us", "🌹 My Love"];
+const petalTexts = ["🌹 Rupali ❤️ King", "🌹 Forever Us", "🌹 My Love", "❤️"];
 
-// YOUR REAL PHOTO FILE NAMES
+// These must match your GitHub filenames exactly
 const photos = [
     "IMG_0101.jpeg",
     "IMG_0217.jpeg",
@@ -153,11 +163,15 @@ const photos = [
 ];
 
 function startHug() {
-    document.getElementById("left").classList.add("hugMove");
-    document.getElementById("right").style.display = "none";
+    const leftTeddy = document.getElementById("left");
+    const rightTeddy = document.getElementById("right");
+    
+    leftTeddy.classList.add("hugMove");
+    rightTeddy.style.opacity = "0"; // Smoothly hide the second one
+    
     document.getElementById("loveMsg").style.display = "block";
     createPetals();
-    setTimeout(showEnding, 4000);
+    setTimeout(showEnding, 3500);
 }
 
 function createPetals() {
@@ -165,11 +179,11 @@ function createPetals() {
         const petal = document.createElement("div");
         petal.classList.add("petal");
         petal.innerHTML = petalTexts[Math.floor(Math.random()*petalTexts.length)];
-        petal.style.left = Math.random() * 100 + "vw";
-        petal.style.animationDuration = (Math.random() * 3 + 3) + "s";
+        petal.style.left = Math.random() * 90 + "vw";
+        petal.style.animationDuration = (Math.random() * 2 + 3) + "s";
         document.body.appendChild(petal);
-        setTimeout(() => petal.remove(), 6000);
-    }, 300);
+        setTimeout(() => petal.remove(), 5000);
+    }, 200);
     setTimeout(() => clearInterval(interval), 4000);
 }
 
@@ -185,7 +199,7 @@ function showEnding() {
         if (width >= 100) {
             clearInterval(load);
             sent.style.display = "block";
-            setTimeout(startSlideshow, 2000);
+            setTimeout(startSlideshow, 1500);
         } else {
             width++;
             bar.style.width = width + "%";
@@ -203,13 +217,13 @@ function startSlideshow() {
     img.src = photos[index];
 
     setInterval(() => {
-        index = (index + 1) % photos.length;
         img.style.opacity = 0;
         setTimeout(() => {
+            index = (index + 1) % photos.length;
             img.src = photos[index];
             img.style.opacity = 1;
-        }, 400);
-    }, 3000);
+        }, 800);
+    }, 3500);
 }
 </script>
 
