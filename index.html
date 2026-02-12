@@ -59,7 +59,7 @@ button {
     to { transform: translateY(110vh) rotate(360deg); opacity: 0.8; }
 }
 
-/* 💌 Ending Screen */
+/* 💌 Loading Screen */
 #endingScreen {
     display: none;
     position: fixed;
@@ -139,7 +139,18 @@ button {
 
 <script>
 const petalTexts = ["🌹 Rupali ❤️ King", "🌹 Forever Us", "🌹 My Love"];
-const photos = ["photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpg","photo5.jpg","photo6.jpg","photo7.jpg","photo8.jpg"];
+
+// YOUR REAL PHOTO FILE NAMES
+const photos = [
+    "IMG_0101.jpeg",
+    "IMG_0217.jpeg",
+    "IMG_0404.jpeg",
+    "IMG_0407.jpeg",
+    "IMG_3262.jpeg",
+    "IMG_3268.jpeg",
+    "IMG_3290.jpeg",
+    "IMG_5489.jpeg"
+];
 
 function startHug() {
     document.getElementById("left").classList.add("hugMove");
