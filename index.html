@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Hug Day My Love 🤗❤️</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(to bottom right, #ff9a9e, #fad0c4);
+    overflow: hidden;
+    text-align: center;
+    color: white;
+}
+
+h1 { margin-top: 40px; font-size: 38px; text-shadow: 2px 2px 8px rgba(0,0,0,0.3); }
+p { font-size: 18px; }
+
+.container {
+    position: relative;
+    margin-top: 40px;
+    height: 260px;
+}
+
+.teddy {
+    width: 140px;
+    position: absolute;
+    transition: all 1s ease;
+}
+
+#left { left: 12%; }
+#right { right: 12%; }
+.hugMove { left: 40% !important; }
+
+button {
+    margin-top: 20px;
+    padding: 14px 28px;
+    font-size: 18px;
+    border-radius: 30px;
+    border: none;
+    background-color: #ff4e88;
+    color: white;
+    cursor: pointer;
+}
+
+.message { margin-top: 20px; font-size: 20px; display: none; }
+
+/* 🌹 Rose Petals */
+.petal {
+    position: fixed;
+    top: -50px;
+    font-size: 20px;
+    animation: fall linear forwards;
+    z-index: 5;
+}
+@keyframes fall {
+    to { transform: translateY(110vh) rotate(360deg); opacity: 0.8; }
+}
+
+/* 💌 Ending Screen */
+#endingScreen {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: white;
+    color: black;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: cursive;
+    z-index: 10;
+}
+
+.loader {
+    width: 200px;
+    height: 20px;
+    border: 2px solid black;
+    margin: 15px 0;
+    overflow: hidden;
+}
+.progress { height: 100%; width: 0%; background: black; }
+
+/* 📸 Slideshow */
+#slideshow {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: black;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 20;
+}
+
+#slideshow img {
+    max-width: 85%;
+    max-height: 75%;
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(255,255,255,0.5);
+    transition: opacity 0.5s ease;
+}
+
+#slideshow h2 { color: white; margin-top: 15px; }
+</style>
+</head>
+
+<body>
+
+<h1>Happy Hug Day, My Royal King 🤗👑❤️</h1>
+<p>Tap below to receive the warmest hug ever!</p>
+
+<div class="container">
+    <img src="https://i.imgur.com/6M513bD.png" class="teddy" id="left">
+    <img src="https://i.imgur.com/6M513bD.png" class="teddy" id="right">
+</div>
+
+<button onclick="startHug()">Click for a Hug 🤍</button>
+
+<div class="message" id="loveMsg">
+    Hug Delivered Successfully 💞<br>
+    Preparing Your Surprise...
+</div>
+
+<!-- 💌 Loading Screen -->
+<div id="endingScreen">
+    <h2>Sending virtual hug 🤗</h2>
+    <p>loading...</p>
+    <div class="loader"><div class="progress" id="progressBar"></div></div>
+    <h2 id="sentText" style="display:none;">Hug sent! 💌</h2>
+</div>
+
+<!-- 📸 Slideshow -->
+<div id="slideshow">
+    <img id="slideImg" src="">
+    <h2>Our Beautiful Memories 💖</h2>
+</div>
+
+<script>
+const petalTexts = ["🌹 Rupali ❤️ King", "🌹 Forever Us", "🌹 My Love"];
+const photos = ["photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpg","photo5.jpg","photo6.jpg","photo7.jpg","photo8.jpg"];
+
+function startHug() {
+    document.getElementById("left").classList.add("hugMove");
+    document.getElementById("right").style.display = "none";
+    document.getElementById("loveMsg").style.display = "block";
+    createPetals();
+    setTimeout(showEnding, 4000);
+}
+
+function createPetals() {
+    const interval = setInterval(() => {
+        const petal = document.createElement("div");
+        petal.classList.add("petal");
+        petal.innerHTML = petalTexts[Math.floor(Math.random()*petalTexts.length)];
+        petal.style.left = Math.random() * 100 + "vw";
+        petal.style.animationDuration = (Math.random() * 3 + 3) + "s";
+        document.body.appendChild(petal);
+        setTimeout(() => petal.remove(), 6000);
+    }, 300);
+    setTimeout(() => clearInterval(interval), 4000);
+}
+
+function showEnding() {
+    const screen = document.getElementById("endingScreen");
+    const bar = document.getElementById("progressBar");
+    const sent = document.getElementById("sentText");
+
+    screen.style.display = "flex";
+
+    let width = 0;
+    const load = setInterval(() => {
+        if (width >= 100) {
+            clearInterval(load);
+            sent.style.display = "block";
+            setTimeout(startSlideshow, 2000);
+        } else {
+            width++;
+            bar.style.width = width + "%";
+        }
+    }, 30);
+}
+
+let index = 0;
+function startSlideshow() {
+    document.getElementById("endingScreen").style.display = "none";
+    const show = document.getElementById("slideshow");
+    const img = document.getElementById("slideImg");
+
+    show.style.display = "flex";
+    img.src = photos[index];
+
+    setInterval(() => {
+        index = (index + 1) % photos.length;
+        img.style.opacity = 0;
+        setTimeout(() => {
+            img.src = photos[index];
+            img.style.opacity = 1;
+        }, 400);
+    }, 3000);
+}
+</script>
+
+</body>
+</html>
